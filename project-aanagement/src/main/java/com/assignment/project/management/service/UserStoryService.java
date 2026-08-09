@@ -39,12 +39,24 @@ public class UserStoryService {
         return storyRepository.save(story);
     }
 
-    public UserStory updateStory(Long id, UserStory story) {
-        story.setId(id);
-        return storyRepository.save(story);
+    public UserStory updateStory(Long id, UserStory updatedStory) {
+
+        UserStory existingStory = storyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Story not found"));
+
+        existingStory.setTitle(updatedStory.getTitle());
+        existingStory.setDescription(updatedStory.getDescription());
+        existingStory.setPriority(updatedStory.getPriority());
+        existingStory.setStatus(updatedStory.getStatus());
+
+        return storyRepository.save(existingStory);
     }
 
     public void deleteStory(Long id) {
         storyRepository.deleteById(id);
+    }
+
+    public List<UserStory> getStoriesByProject(Long projectId) {
+        return storyRepository.findByProjectId(projectId);
     }
 }

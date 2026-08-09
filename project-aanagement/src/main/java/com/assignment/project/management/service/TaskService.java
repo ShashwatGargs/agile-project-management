@@ -38,12 +38,25 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Long id, Task task) {
-        task.setId(id);
-        return taskRepository.save(task);
-    }
+    public Task updateTask(Long id, Task updatedTask) {
+
+    Task existingTask = taskRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Task not found"));
+
+    existingTask.setTitle(updatedTask.getTitle());
+    existingTask.setDescription(updatedTask.getDescription());
+    existingTask.setStatus(updatedTask.getStatus());
+    existingTask.setAssignee(updatedTask.getAssignee());
+    existingTask.setDueDate(updatedTask.getDueDate());
+
+    return taskRepository.save(existingTask);
+}
 
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
+    public List<Task> getTasksByStory(Long storyId) {
+    return taskRepository.findByUserStoryId(storyId);
+}
 }

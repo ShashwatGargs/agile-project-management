@@ -45,4 +45,9 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         service.deleteTask(id);
     }
+
+    @GetMapping("/story/{storyId}")
+    public List<Task> getTasksByStory(@PathVariable Long storyId) {
+        return service.getTasksByStory(storyId);
+    }
 }

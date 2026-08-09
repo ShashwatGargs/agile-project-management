@@ -45,4 +45,9 @@ public class UserStoryController {
     public void deleteStory(@PathVariable Long id) {
         service.deleteStory(id);
     }
+
+    @GetMapping("/project/{projectId}")
+    public List<UserStory> getStoriesByProject(@PathVariable Long projectId) {
+        return service.getStoriesByProject(projectId);
+    }
 }

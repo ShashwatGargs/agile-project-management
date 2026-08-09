@@ -28,9 +28,16 @@ public class ProjectService {
         return repository.save(project);
     }
 
-    public Project updateProject(Long id, Project project) {
-        project.setId(id);
-        return repository.save(project);
+    public Project updateProject(Long id, Project updatedProject) {
+
+        Project existingProject = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        existingProject.setName(updatedProject.getName());
+        existingProject.setDescription(updatedProject.getDescription());
+        existingProject.setStatus(updatedProject.getStatus());
+
+        return repository.save(existingProject);
     }
 
     public void deleteProject(Long id) {
